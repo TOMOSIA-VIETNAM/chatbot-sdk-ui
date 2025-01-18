@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat Interface - by MGPT</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.16/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <style>
+    .typing {
+      position: relative;
+    }
+
+    .typing span {
+      content: '';
+      animation: blink 1.5s infinite;
+      animation-fill-mode: both;
+      height: 5px;
+      width: 5px;
+      background: #3b5998;
+      position: absolute;
+      left: 0;
+      top: 0;
+      border-radius: 50%;
+    }
+
+    .typing span:nth-child(2) {
+      animation-delay: 0.2s;
+      margin-left: 15px;
+    }
+
+    .typing span:nth-child(3) {
+      animation-delay: 0.4s;
+      margin-left: 30px;
+    }
+
+    @keyframes blink {
+      0% { opacity: 0.1; }
+      20% { opacity: 1; }
+      100% { opacity: 0.1; }
+    }
+
+    /* Flexbox utility classes */
+    .\!flex-wrap { flex-wrap: wrap !important; }
+
+
+    .spinner {
+      border-top: 4px solid #000;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="loading-screen" class="fixed w-full h-full top-0 left-0 bg-white flex justify-center items-center z-50">
+    <div class="spinner border-4 border-gray-300 border-t-4 rounded-full w-12 h-12 animate-spin"></div>
+  </div>
+  <div id="chat-popup" class="h-full overflow-hidden w-full absolute right-0 w-96 bg-white shadow-md flex flex-col transition-all text-sm">
+    <div id="chat-header" class="flex items-center p-4 bg-gray-800 text-white">
+      <img id="chatbot_avatar" src="" width="35" height="35" decoding="async" data-nimg="1" class="rounded-circle mx-2"
+        loading="lazy" alt="profile picture" onerror="this.style.display='none';">
+      <h3 id="chatbot_name" class="m-0 text-lg">MGPT AI assistant</h3>
+      <div id="xIconButton"></div>
+    </div>
+    <div class="h-full p-6 rounded-b-xl" id="form-start">
+      <div class="mb-4 py-2">
+        <div class="flex p-2">
+          <div class="w-1/2 !flex-wrap">
+            <div class="shrink-0 mr-2 py-2 w-[128px] !w-full">First name</div>
+            <input id="input-first-name" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" maxlength="30" placeholder="First name (Optional)"
+              value="">
+          </div>
+          <div class="px-2 w-1/2 !flex-wrap">
+            <div class="shrink-0 mr-2 py-2 w-[128px] !w-full">Last name</div>
+            <input id="input-last-name" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" maxlength="30" placeholder="Last name (Optional)" value="">
+          </div>
+        </div>
+        <div class="p-2 flex mb-3 last-of-type:mb-0 text-sm text-gray-900 !flex-wrap">
+          <div class="shrink-0 mr-2 py-2 w-[128px] !w-full">Email</div>
+          <input id="input-email" class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" maxlength="50" type="email" placeholder="Email (Optional)"
+            value="">
+          <span id="error-email" style="color: red; display:none;">Email invalidate</span>
+        </div>
+        <div class="flex p-2">
+          <button type="button" class="hover:bg-blue-500 py-2 bg-blue-600 text-white h-9 rounded-lg px-4 text-sm font-semibold inline-flex cursor-pointer items-center;" id="btn-start">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+              class="mr-2 w-4 h-4 text-white" data-icon="MessageDotsCircle" aria-hidden="true">
+              <g id="message-dots-circle">
+                <path id="Solid" fill-rule="evenodd" clip-rule="evenodd"
+                  d="M12 2C6.47715 2 2 6.47715 2 12C2 13.3283 2.25952 14.5985 2.73156 15.7608C2.77419 15.8658 2.79872 15.9264 2.81552 15.9711L2.82063 15.9849L2.82 15.9897C2.815 16.0266 2.80672 16.0769 2.79071 16.173L2.19294 19.7596C2.16612 19.9202 2.13611 20.0999 2.12433 20.256C2.11148 20.4261 2.10701 20.6969 2.22973 20.983C2.38144 21.3367 2.6633 21.6186 3.017 21.7703C3.30312 21.893 3.57386 21.8885 3.74404 21.8757C3.90013 21.8639 4.07985 21.8339 4.24049 21.8071L7.82705 21.2093C7.92309 21.1933 7.97339 21.185 8.0103 21.18L8.01505 21.1794L8.02887 21.1845C8.07362 21.2013 8.13423 21.2258 8.23921 21.2684C9.4015 21.7405 10.6717 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM6 12C6 11.1716 6.67157 10.5 7.5 10.5C8.32843 10.5 9 11.1716 9 12C9 12.8284 8.32843 13.5 7.5 13.5C6.67157 13.5 6 12.8284 6 12ZM10.5 12C10.5 11.1716 11.1716 10.5 12 10.5C12.8284 10.5 13.5 11.1716 13.5 12C13.5 12.8284 12.8284 13.5 12 13.5C11.1716 13.5 10.5 12.8284 10.5 12ZM16.5 10.5C15.6716 10.5 15 11.1716 15 12C15 12.8284 15.6716 13.5 16.5 13.5C17.3284 13.5 18 12.8284 18 12C18 11.1716 17.3284 10.5 16.5 10.5Z"
+                  fill="currentColor"></path>
+              </g>
+            </svg>
+            Start Chat
+            <div
+              class="inline-block text-gray-200 h-4 w-4 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] hidden !text-white !h-3 !w-3 !border-2 !ml-1"
+              role="status">
+              <span
+                class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">Loading...</span>
+            </div>
+          </button>
+        </div>
+        
+      </div>
+    </div>
+    <div id="chat-messages" class="flex-1 p-4 overflow-y-auto">
+      <div class="flex mb-3">
+        <div id="chat_initial" class="reply text-black rounded-lg py-2 px-4 max-w-[70%] typing bg-gray-200">
+          I am a AI Assistant, Ask me anything, I will help answer your questions based on my
+          understanding.
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="container">
+        <div id="suggest_mess" class="p-4 flex overflow-x-auto"></div>
+      </div>
+    </div>
+    <div id="chat-input-container" class="p-2 border-t border-gray-200">
+      <div class="flex space-x-4 items-center">
+        <input type="text" id="chat-input" class="flex-1 rounded-md px-4 py-2 outline-none w-3/4"
+          placeholder="Type your message...">
+        <button id="chat-submit" class="bg-gray-800 text-white rounded-md px-4 py-2 cursor-pointer">
+          <i class="fa fa-paper-plane" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+    <div class="flex text-center text-xs py-2 bg-gray-50">
+      <span class="flex-1 py-1">Prompted by <a id="brand" href="https://tomosia.com" target="_blank"
+          class="text-indigo-600">MGPT</a></span>
+    </div>
+  </div>
+</body>
+<script src="http://localhost:3000/interface.js?v1"></script>
+
+</html>

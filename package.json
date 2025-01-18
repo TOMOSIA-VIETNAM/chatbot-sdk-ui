@@ -1,0 +1,28 @@
+{
+  "name": "chatbot-sdk-ui",
+  "version": "1.0.0",
+  "description": "This project was bootstrapped with Fastify-CLI.",
+  "main": "src/app.ts",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "dev": "npx ts-node-dev ./src/app.ts"
+  },
+  "engines": {
+    "node": "20.0.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fastify/static": "^8.0.4",
+    "fastify": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "20.14.10",
+    "ts-node": "10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "5.5.3"
+  }
+}
