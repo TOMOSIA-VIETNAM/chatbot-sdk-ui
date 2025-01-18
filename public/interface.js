@@ -1,4 +1,5 @@
 (function () {
+  // This file to handle setting up chat interface properties, the data is fetched from the server
   // Add event listeners
   const chatInput = document.getElementById("chat-input");
   const chatSubmit = document.getElementById("chat-submit");
