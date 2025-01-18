@@ -6,7 +6,7 @@ To set up the project, follow these steps:
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/yourusername/chatbot-sdk-ui.git
+   git clone https://github.com/TOMOSIA-VIETNAM/chatbot-sdk-ui
    cd chatbot-sdk-ui
    ```
 
