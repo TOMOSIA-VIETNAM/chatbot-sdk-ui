@@ -12,7 +12,7 @@
   const API_URL = `${window.location.origin}/api/v1/chat-stream`;
   const API_GUEST_USER_URL = `${window.location.origin}/api/v1/guest-users`;
   var histories = [];
-
+  
   // Get uuid local storage
   const uuidGuestUser = localStorage.getItem("uuid_guest_user_chat");
 
@@ -35,7 +35,7 @@
   xhr.onload = function () {
     if (xhr.status === 200) {
       var chatInterface = JSON.parse(xhr.responseText);
-
+      console.log(chatInterface)
       if (chatInterface) {
         //Start guest user chat
         const flagCollectInformation =
